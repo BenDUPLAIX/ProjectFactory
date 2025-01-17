@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}Déconnexion{% endblock %}
+
+{% block content %}
+    <h2>Vous êtes déconnecté.</h2>
+    <p>Merci d'avoir utilisé ProjectFactory !</p>
+    <a href="{% url 'login' %}">Se reconnecter</a> |
+    <a href="{% url 'home' %}">Retour à l'accueil</a>
+{% endblock %}

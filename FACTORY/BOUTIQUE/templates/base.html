@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ProjectFactory{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            background: #333;
+            color: white;
+            padding: 10px;
+        }
+        nav a {
+            color: white;
+            margin-right: 15px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="{% url 'home' %}">Accueil</a>
+
+
+        <span style="float: right;">
+        {% if user.is_authenticated %}
+            👤 {{ user.username }} |
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background:none;border:none;color:white;cursor:pointer;">Se déconnecter</button>
+                </form>
+                {% if user.is_superuser %}
+                    | <a href="/admin/">Admin</a> <!-- Bouton Admin pour les super utilisateurs -->
+                    <a href="{% url 'manage_users' %}">Gestion des utilisateurs</a>
+                {% endif %}
+        {% else %}
+            <a href="{% url 'login' %}">Se connecter</a>ou <a href="{% url 'signup' %}">S enregistrer</a>
+        {% endif %}
+    </span>
+    </nav>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+</body>
+</html>

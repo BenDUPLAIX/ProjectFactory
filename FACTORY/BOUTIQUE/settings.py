@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'BACK_OFFICE',
 ]
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -56,7 +58,12 @@ ROOT_URLCONF = 'urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "front-office/templates", BASE_DIR / "back-office/templates"],
+        'DIRS': [
+            BASE_DIR / "front_office/templates",
+            BASE_DIR / "back_office/templates",
+            BASE_DIR / "templates",
+            BASE_DIR / "plugins",
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -102,9 +109,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = 'BACK_OFFICE.CustomUser'
-
+LOGIN_REDIRECT_URL = "home"
+LOGIN_URL = "/BACK_OFFICE/login/"
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
+
+SESSION_COOKIE_NAME = "projectfactory_session"
+SESSION_COOKIE_PATH = "/"
 
 LANGUAGE_CODE = 'en-us'
 

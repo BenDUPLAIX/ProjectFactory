@@ -1,31 +1,20 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des utilisateurs</title>
-</head>
-<body>
-    <h1>Liste des utilisateurs</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Email</th>
-                <th>Admin</th>
-                <th>Éditer</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
-                <tr>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{% if user.is_superuser %}✅{% else %}❌{% endif %}</td>
-                    <td><a href="{% url 'edit_user' user.id %}">Modifier</a></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %} Modifier l'utilisateur {{ user.username }} {% endblock %}
+{% block content %}
+    <h1>Modifier {{ user.username }}</h1>
+
+    <p>DEBUG : Ce texte doit s'afficher si le template est bien chargé.</p>
+
+    {% if form %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Enregistrer</button>
+        </form>
+    {% else %}
+        <p>Erreur : Le formulaire est vide !</p>  <!-- ✅ Affichera une erreur si form est None -->
+    {% endif %}
+
+    <a href="{% url 'manage_users' %}">Retour à la liste des utilisateurs</a>
+{% endblock %}

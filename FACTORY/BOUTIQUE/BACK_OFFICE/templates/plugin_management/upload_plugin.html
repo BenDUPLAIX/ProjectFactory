@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Ajouter un Plugin{% endblock %}
+
+{% block content %}
+    <h2>Ajouter un Plugin</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="plugin_file">Fichier ZIP du plugin :</label>
+        <input type="file" id="plugin_file" name="plugin_file" required>
+        <button type="submit">Télécharger et installer</button>
+    </form>
+    <a href="{% url 'manage_plugins' %}">Retour à la gestion des plugins</a>
+{% endblock %}

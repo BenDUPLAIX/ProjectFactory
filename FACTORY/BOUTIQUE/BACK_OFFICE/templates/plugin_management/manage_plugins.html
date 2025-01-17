@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Gestion des plugins{% endblock %}
+
+{% block content %}
+<table>
+    <thead>
+        <tr>
+            <th>Nom du Plugin</th>
+            <th>Statut</th>
+            <th>Activé</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for plugin in plugins_status %}
+            <tr>
+                <td>{{ plugin.name }}</td>
+                <td>
+                    {% if plugin.is_installed %}
+                        Installé
+                    {% else %}
+                        Non installé
+                    {% endif %}
+                </td>
+                <td>
+                    {% if plugin.is_enabled %}
+                        Activé
+                    {% else %}
+                        Désactivé
+                    {% endif %}
+                </td>
+                <td>
+                    {% if plugin.is_installed %}
+                        <!-- Bouton Activer/Désactiver -->
+                        <form method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="toggle">
+                            <input type="hidden" name="plugin_name" value="{{ plugin.name }}">
+                            <button type="submit">
+                                {% if plugin.is_enabled %}Désactiver{% else %}Activer{% endif %}
+                            </button>
+                        </form>
+
+                        <!-- Bouton Désinstaller -->
+                        <form method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="uninstall">
+                            <input type="hidden" name="plugin_name" value="{{ plugin.name }}">
+                            <button type="submit">Désinstaller</button>
+                        </form>
+                    {% else %}
+                        <!-- Bouton Installer -->
+                        <form method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="install">
+                            <input type="hidden" name="plugin_name" value="{{ plugin.name }}">
+                            <button type="submit">Installer</button>
+                        </form>
+                    {% endif %}
+
+                    <!-- Bouton Supprimer -->
+                    <form method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="plugin_name" value="{{ plugin.name }}">
+                        <button type="submit">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
